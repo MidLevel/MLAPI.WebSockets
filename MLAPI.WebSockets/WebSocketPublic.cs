@@ -13,10 +13,11 @@ namespace MLAPI.WebSockets
         void Close(DisconnectCode code = DisconnectCode.Normal, string reason = null);
         void Send(ArraySegment<byte> payload);
         WebSocketState GetState();
-        OnClientOpenDelegate OnOpen { get; }
-        OnClientPayloadDelegate OnPayload { get; }
-        OnClientErrorDelegate OnError { get; }
-        OnClientCloseDelegate OnClose { get; }
+
+        void SetOnOpen(OnClientOpenDelegate action);
+        void SetOnPayload(OnClientPayloadDelegate action);
+        void SetOnError(OnClientErrorDelegate action);
+        void SetOnClose(OnClientCloseDelegate action);
     }
 
 #if !JSLIB

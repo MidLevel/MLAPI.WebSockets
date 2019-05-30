@@ -8,21 +8,13 @@
   
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_WebGL|AnyCPU' ">
     <IntermediateOutputPath>obj\Debug_WebGL</IntermediateOutputPath>
-    <DebugType></DebugType>
-    <Optimize>false</Optimize>
     <OutputPath>bin\Debug_WebGL</OutputPath>
-    <DefineConstants></DefineConstants>
-    <NoWarn></NoWarn>
     <DefineConstants>$(DefineConstants);JSLIB</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_WebGL|AnyCPU' ">
     <IntermediateOutputPath>obj\Release_WebGL</IntermediateOutputPath>
-    <DebugType></DebugType>
-    <Optimize>false</Optimize>
     <OutputPath>bin\Release_WebGL</OutputPath>
-    <DefineConstants></DefineConstants>
-    <NoWarn></NoWarn>
     <DefineConstants>$(DefineConstants);JSLIB</DefineConstants>
   </PropertyGroup>
 

@@ -5,11 +5,6 @@ namespace MLAPI.WebSockets
 {
     internal class NativeWebSocketClient : IWebSocketClient
     {
-        public OnClientOpenDelegate OnOpen => OnOpenEvent;
-        public OnClientPayloadDelegate OnPayload => OnPayloadEvent;
-        public OnClientErrorDelegate OnError => OnErrorEvent;
-        public OnClientCloseDelegate OnClose => OnCloseEvent;
-
         internal event OnClientOpenDelegate OnOpenEvent;
         internal event OnClientPayloadDelegate OnPayloadEvent;
         internal event OnClientErrorDelegate OnErrorEvent;
@@ -27,33 +22,33 @@ namespace MLAPI.WebSockets
 
                 websocket.OnOpen += (sender, ev) =>
                 {
-                    if (OnOpen != null)
+                    if (OnOpenEvent != null)
                     {
-                        OnOpen();
+                        OnOpenEvent();
                     }
                 };
 
                 websocket.OnMessage += (sender, ev) =>
                 {
-                    if (ev.RawData != null && OnPayload != null)
+                    if (ev.RawData != null && OnPayloadEvent != null)
                     {
-                        OnPayload(new ArraySegment<byte>(ev.RawData, 0, ev.RawData.Length));
+                        OnPayloadEvent(new ArraySegment<byte>(ev.RawData, 0, ev.RawData.Length));
                     }
                 };
 
                 // Bind OnError event
                 websocket.OnError += (sender, ev) =>
                 {
-                    if (OnError != null)
+                    if (OnErrorEvent != null)
                     {
-                        OnError(ev.Message);
+                        OnErrorEvent(ev.Message);
                     }
                 };
 
                 // Bind OnClose event
                 this.websocket.OnClose += (sender, ev) =>
                 {
-                    if (OnClose != null)
+                    if (OnCloseEvent != null)
                     {
                         DisconnectCode code = (DisconnectCode)(int)ev.Code;
 
@@ -62,7 +57,7 @@ namespace MLAPI.WebSockets
                             code = DisconnectCode.Unknown;
                         }
 
-                        OnClose(code);
+                        OnCloseEvent(code);
                     }
                 };
 
@@ -174,6 +169,26 @@ namespace MLAPI.WebSockets
                         return WebSocketState.Closed;
                     }
             }
+        }
+
+        public void SetOnOpen(OnClientOpenDelegate action)
+        {
+            OnOpenEvent += action;
+        }
+
+        public void SetOnPayload(OnClientPayloadDelegate action)
+        {
+            OnPayloadEvent += action;
+        }
+
+        public void SetOnError(OnClientErrorDelegate action)
+        {
+            OnErrorEvent += action;
+        }
+
+        public void SetOnClose(OnClientCloseDelegate action)
+        {
+            OnCloseEvent += action;
         }
     }
 }

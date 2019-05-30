@@ -103,6 +103,26 @@ namespace MLAPI.WebSockets
                 throw ErrorParser.GetWebSocketExceptionFromErrorCode(response, null);
             }
         }
+
+        public void SetOnOpen(OnClientOpenDelegate action)
+        {
+            OnOpenEvent += action;
+        }
+
+        public void SetOnPayload(OnClientPayloadDelegate action)
+        {
+            OnPayloadEvent += action;
+        }
+
+        public void SetOnError(OnClientErrorDelegate action)
+        {
+            OnErrorEvent += action;
+        }
+
+        public void SetOnClose(OnClientCloseDelegate action)
+        {
+            OnCloseEvent += action;
+        }
     }
 }
 #endif
