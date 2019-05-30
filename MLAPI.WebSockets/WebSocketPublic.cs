@@ -19,6 +19,7 @@ namespace MLAPI.WebSockets
         OnClientCloseDelegate OnClose { get; }
     }
 
+#if !JSLIB
     public struct WebSocketServerEvent
     {
         public WebSocketServerEventType Type;
@@ -36,4 +37,5 @@ namespace MLAPI.WebSockets
         Payload,
         Error
     }
+#endif
 }

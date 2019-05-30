@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !JSLIB
+using System;
 using System.Collections.Generic;
 using System.Net;
 using WebSocketSharp;
@@ -214,3 +215,4 @@ namespace MLAPI.WebSockets
         }
     }
 }
+#endif

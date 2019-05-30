@@ -1,8 +1,8 @@
-﻿using System;
+﻿#if !JSLIB
+using System;
 
 namespace MLAPI.WebSockets
 {
-#if !JSLIB
     internal class NativeWebSocketClient : IWebSocketClient
     {
         public OnClientOpenDelegate OnOpen => OnOpenEvent;
@@ -37,7 +37,7 @@ namespace MLAPI.WebSockets
                 {
                     if (ev.RawData != null && OnPayload != null)
                     {
-                        OnPayload(ev.RawData);
+                        OnPayload(new ArraySegment<byte>(ev.RawData, 0, ev.RawData.Length));
                     }
                 };
 
@@ -70,7 +70,7 @@ namespace MLAPI.WebSockets
 
             catch (Exception e)
             {
-                throw new System.Net.WebSockets.WebSocketException("Failed to create socket", e);
+                throw new WebSocketException("Failed to create socket", e);
             }
         }
 
@@ -92,7 +92,7 @@ namespace MLAPI.WebSockets
             }
             catch (Exception e)
             {
-                throw new System.Net.WebSockets.WebSocketException("Connection failed", e);
+                throw new WebSocketException("Connection failed", e);
             }
         }
 
@@ -114,7 +114,7 @@ namespace MLAPI.WebSockets
             }
             catch (Exception e)
             {
-                throw new System.Net.WebSockets.WebSocketException("Could not close socket", e);
+                throw new WebSocketException("Could not close socket", e);
             }
         }
 
@@ -122,7 +122,7 @@ namespace MLAPI.WebSockets
         {
             if (websocket.ReadyState != WebSocketSharp.WebSocketState.Open)
             {
-                throw new System.Net.WebSockets.WebSocketException("Socket is not open");
+                throw new WebSocketException("Socket is not open");
             }
 
             try
@@ -142,7 +142,7 @@ namespace MLAPI.WebSockets
             }
             catch (Exception e)
             {
-                throw new System.Net.WebSockets.WebSocketException("Unknown error while sending the message", e);
+                throw new WebSocketException("Unknown error while sending the message", e);
             }
         }
 
@@ -176,5 +176,5 @@ namespace MLAPI.WebSockets
             }
         }
     }
-#endif
 }
+#endif

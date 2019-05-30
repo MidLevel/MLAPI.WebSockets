@@ -3,6 +3,37 @@
     <TargetFrameworks>net35;net45;net471;netstandard2.0</TargetFrameworks>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " />
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' " />
+  
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_WebGL|AnyCPU' ">
+    <IntermediateOutputPath>obj\Debug_WebGL</IntermediateOutputPath>
+    <DebugType></DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug_WebGL</OutputPath>
+    <DefineConstants></DefineConstants>
+    <NoWarn></NoWarn>
+    <DefineConstants>$(DefineConstants);JSLIB</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_WebGL|AnyCPU' ">
+    <IntermediateOutputPath>obj\Release_WebGL</IntermediateOutputPath>
+    <DebugType></DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release_WebGL</OutputPath>
+    <DefineConstants></DefineConstants>
+    <NoWarn></NoWarn>
+    <DefineConstants>$(DefineConstants);JSLIB</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_WebGL|AnyCPU' ">
+    <None Update="WebSocket.jslib" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_WebGL|AnyCPU' ">
+    <None Update="WebSocket.jslib" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
   <ItemGroup>
     <Reference Include="UnityEngine">
       <HintPath>..\Libraries\Unity\UnityEngine.dll</HintPath>

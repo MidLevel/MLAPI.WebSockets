@@ -7,11 +7,17 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+		Debug_WebGL|Any CPU = Debug_WebGL|Any CPU
+		Release_WebGL|Any CPU = Release_WebGL|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{3BB1D719-3DEA-4D3F-B612-808F6773A511}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3BB1D719-3DEA-4D3F-B612-808F6773A511}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BB1D719-3DEA-4D3F-B612-808F6773A511}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BB1D719-3DEA-4D3F-B612-808F6773A511}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BB1D719-3DEA-4D3F-B612-808F6773A511}.Debug_WebGL|Any CPU.ActiveCfg = Debug_WebGL|Any CPU
+		{3BB1D719-3DEA-4D3F-B612-808F6773A511}.Debug_WebGL|Any CPU.Build.0 = Debug_WebGL|Any CPU
+		{3BB1D719-3DEA-4D3F-B612-808F6773A511}.Release_WebGL|Any CPU.ActiveCfg = Release_WebGL|Any CPU
+		{3BB1D719-3DEA-4D3F-B612-808F6773A511}.Release_WebGL|Any CPU.Build.0 = Release_WebGL|Any CPU
 	EndGlobalSection
 EndGlobal

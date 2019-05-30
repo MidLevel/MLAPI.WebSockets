@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !JSLIB
+using System;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using WebSocketSharp.Server;
@@ -88,3 +89,4 @@ namespace MLAPI.WebSockets
         }
     }
 }
+#endif
