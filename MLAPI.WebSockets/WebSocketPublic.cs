@@ -19,16 +19,6 @@ namespace MLAPI.WebSockets
         OnClientCloseDelegate OnClose { get; }
     }
 
-    public interface IWebSocketServer
-    {
-        void Close(ulong id, DisconnectCode code = DisconnectCode.Normal, string reason = null);
-        void Send(ulong id, ArraySegment<byte> payload);
-        void Shutdown();
-        void Listen(ushort port);
-        WebSocketState GetState(ulong id);
-        WebSocketServerEvent Poll();
-    }
-
     public struct WebSocketServerEvent
     {
         public WebSocketServerEventType Type;
@@ -40,6 +30,7 @@ namespace MLAPI.WebSockets
 
     public enum WebSocketServerEventType
     {
+        Nothing,
         Open,
         Close,
         Payload,

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using WebSocketSharp;
 using WebSocketSharp.Server;
@@ -33,6 +34,100 @@ namespace MLAPI.WebSockets
         public IPEndPoint Endpoint { get; private set; }
         public WebSocket Socket { get; private set; }
         public ulong ConnectionId { get; private set; }
+
+        internal static void Reset()
+        {
+            lock (connectionLock)
+            {
+                connectionIdCounter = 0;
+                releasedConnectionIds.Clear();
+                connectedClients.Clear();
+                eventQueue.Clear();
+            }
+        }
+
+        internal static WebSocketServerEvent Poll()
+        {
+            lock (connectionLock)
+            {
+                if (eventQueue.Count > 0)
+                {
+                    return eventQueue.Dequeue();
+                }
+                else
+                {
+                    return new WebSocketServerEvent()
+                    {
+                        Type = WebSocketServerEventType.Nothing,
+                        Error = null,
+                        Id = 0,
+                        Payload = null,
+                        Reason = null
+                    };
+                }
+            }
+        }
+
+        internal static void Close(ulong id, DisconnectCode code = DisconnectCode.Normal, string reason = null)
+        {
+            lock (connectionLock)
+            {
+                if (connectedClients.ContainsKey(id))
+                {
+                    connectedClients[id].Close((ushort)code, reason);
+                }
+            }
+        }
+
+        internal static WebSocketState GetState(ulong id)
+        {
+            lock (connectionLock)
+            {
+                if (connectedClients.ContainsKey(id))
+                {
+                    switch (connectedClients[id].ReadyState)
+                    {
+                        case WebSocketSharp.WebSocketState.Connecting:
+                            return WebSocketState.Connecting;
+                        case WebSocketSharp.WebSocketState.Open:
+                            return WebSocketState.Open;
+                        case WebSocketSharp.WebSocketState.Closing:
+                            return WebSocketState.Closing;
+                        case WebSocketSharp.WebSocketState.Closed:
+                            return WebSocketState.Closed;
+                        default:
+                            return WebSocketState.Closed;
+                    }
+                }
+                else
+                {
+                    return WebSocketState.Closed;
+                }
+            }
+        }
+
+        internal static void Send(ulong id, ArraySegment<byte> payload)
+        {
+            lock (connectionLock)
+            {
+                if (connectedClients.ContainsKey(id))
+                {
+                    if (payload.Count < payload.Array.Length || payload.Offset > 0)
+                    {
+                        // WebSocket-Csharp cant handle this.
+                        byte[] slimPayload = new byte[payload.Count];
+
+                        Buffer.BlockCopy(payload.Array, payload.Offset, slimPayload, 0, payload.Count);
+
+                        connectedClients[id].Send(slimPayload);
+                    }
+                    else
+                    {
+                        connectedClients[id].Send(payload.Array);
+                    }
+                }
+            }
+        }
 
         protected override void OnOpen()
         {
